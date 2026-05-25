@@ -25,6 +25,11 @@ void ACRCharacter::BeginPlay()
 	
 }
 
+void ACRCharacter::MoveForward(float Value)
+{
+	AddMovementInput(GetActorForwardVector(), Value);
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -36,6 +41,8 @@ void ACRCharacter::Tick(float DeltaTime)
 void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &ACRCharacter::MoveForward);
 
 }
 
