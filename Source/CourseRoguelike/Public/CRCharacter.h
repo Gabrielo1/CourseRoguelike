@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+
+#include "InputMappingContext.h"
+
 #include "CRCharacter.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
+class FInputActionInstances;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
@@ -20,6 +24,12 @@ public:
 
 protected:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputMappingContext* DefaultInputMapping;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_Move;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -30,7 +40,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void MoveForward(float Value);
+	void MoveForward(const FInputActionInstance& AxisValue); // (float Value); //deprecated
+	void Move(const FInputActionInstance& Instance);
+
 	void AddControllerYawInput(float Value);
 
 public:	
