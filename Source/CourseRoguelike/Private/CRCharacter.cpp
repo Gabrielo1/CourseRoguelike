@@ -30,6 +30,11 @@ void ACRCharacter::MoveForward(float Value)
 	AddMovementInput(GetActorForwardVector(), Value);
 }
 
+void ACRCharacter::AddControllerYawInput(float Value)
+{
+
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -42,7 +47,8 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ACRCharacter::MoveForward);
-
+	// Example of deprecated input system
+	PlayerInputComponent->BindAxis("IA_Forward_Backward_CRCharacter_Input", this, &ACRCharacter::MoveForward);
+	
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "CRCharacter.generated.h"
 
 class UCameraComponent;
@@ -31,6 +32,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void MoveForward(float Value);
+	void AddControllerYawInput(float Value);
 
 public:	
 	// Called every frame
