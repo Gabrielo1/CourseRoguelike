@@ -66,14 +66,20 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	const APlayerController* PC = GetController<APlayerController>();
 	const ULocalPlayer* LP = PC->GetLocalPlayer();
 
+	// Get the local player subsystem and add the default mapping context
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
 	check(Subsystem);
 
+	// Clear out existing mapping contexts, which can be created by different blueprints (e.g. player state)
 	Subsystem->ClearAllMappings();
 
+	// Add default mapping context with a priority of 0 (higher priorities override lower priorities)
 	Subsystem->AddMappingContext(DefaultInputMapping, 0);
 
+	// New Enhanced Input way to bind actions
 	UEnhancedInputComponent* InputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	
 }

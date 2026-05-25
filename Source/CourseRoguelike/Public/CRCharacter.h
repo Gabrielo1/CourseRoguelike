@@ -11,7 +11,6 @@
 
 class UCameraComponent;
 class USpringArmComponent;
-class FInputActionInstances;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
