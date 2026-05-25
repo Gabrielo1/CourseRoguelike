@@ -40,7 +40,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void MoveForward(const FInputActionInstance& AxisValue); // (float Value); //deprecated
 	void Move(const FInputActionInstance& Instance);
 
 	void AddControllerYawInput(float Value);

@@ -29,12 +29,6 @@ void ACRCharacter::BeginPlay()
 	
 }
 
-void ACRCharacter::MoveForward(const FInputActionInstance& AxisValue) // (float Value)
-{
-	check(this);
-	//AddMovementInput(GetActorForwardVector(), Value);
-}
-
 void ACRCharacter::Move(const FInputActionInstance& Instance)
 {
 	FRotator ControlRot = GetControlRotation();
@@ -44,12 +38,12 @@ void ACRCharacter::Move(const FInputActionInstance& Instance)
 	// Get value from input (combined value from WASD keys or single Gamepad stick) and convert to Vector (x,y)
 	const FVector2D AxisValue = Instance.GetValue().Get<FVector2D>();
 	
-	//Move forward/back
+	// Move forward/back
 	AddMovementInput(ControlRot.Vector(), AxisValue.Y);
 	
-	//Move Rigth/Left strafe
-//	const FVector RightVector = FRotationMatrix(ControlRot).GetScaledAxes(EAxis::Y);
-//	AddMovementInput(RightVector, AxisValue.X);
+	// Move Right/Left strafe
+	const FVector RightVector = FRotationMatrix(ControlRot).GetScaledAxis(EAxis::Y);
+	AddMovementInput(RightVector, AxisValue.X);
 }
 
 void ACRCharacter::AddControllerYawInput(float Value)
@@ -79,13 +73,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	Subsystem->AddMappingContext(DefaultInputMapping, 0);
 
-	// Example of deprecated input system
-	//PlayerInputComponent->BindAxis("IA_Forward_Backward_CRCharacter_Input", this, &ACRCharacter::MoveForward);
-
 	UEnhancedInputComponent* InputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-
-	//InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::MoveForward);
-
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	
 }
