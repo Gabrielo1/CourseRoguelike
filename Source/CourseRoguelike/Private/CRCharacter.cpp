@@ -5,6 +5,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+// Enhanced input
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+
 // Sets default values
 ACRCharacter::ACRCharacter()
 {
@@ -25,6 +29,28 @@ void ACRCharacter::BeginPlay()
 	
 }
 
+void ACRCharacter::Move(const FInputActionInstance& Instance)
+{
+	FRotator ControlRot = GetControlRotation();
+	ControlRot.Pitch = 0.0f;
+	ControlRot.Roll = 0.0f;
+	
+	// Get value from input (combined value from WASD keys or single Gamepad stick) and convert to Vector (x,y)
+	const FVector2D AxisValue = Instance.GetValue().Get<FVector2D>();
+	
+	// Move forward/back
+	AddMovementInput(ControlRot.Vector(), AxisValue.Y);
+	
+	// Move Right/Left strafe
+	const FVector RightVector = FRotationMatrix(ControlRot).GetScaledAxis(EAxis::Y);
+	AddMovementInput(RightVector, AxisValue.X);
+}
+
+void ACRCharacter::AddControllerYawInput(float Value)
+{
+
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -37,5 +63,24 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	const APlayerController* PC = GetController<APlayerController>();
+	const ULocalPlayer* LP = PC->GetLocalPlayer();
+
+	// Get the local player subsystem and add the default mapping context
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	check(Subsystem);
+
+	// Clear out existing mapping contexts, which can be created by different blueprints (e.g. player state)
+	Subsystem->ClearAllMappings();
+
+	// Add default mapping context with a priority of 0 (higher priorities override lower priorities)
+	Subsystem->AddMappingContext(DefaultInputMapping, 0);
+
+	// New Enhanced Input way to bind actions
+	UEnhancedInputComponent* InputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	// General
+	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
+	
 }
 

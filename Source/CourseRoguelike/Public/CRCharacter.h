@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+
+#include "InputMappingContext.h"
+
 #include "CRCharacter.generated.h"
 
 class UCameraComponent;
@@ -20,6 +23,12 @@ public:
 
 protected:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputMappingContext* DefaultInputMapping;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_Move;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -28,6 +37,11 @@ protected:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void Move(const FInputActionInstance& Instance);
+
+	void AddControllerYawInput(float Value);
 
 public:	
 	// Called every frame
