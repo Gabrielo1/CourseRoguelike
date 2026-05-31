@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_Move;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_LookMouse;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -41,7 +44,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void Move(const FInputActionInstance& Instance);
 
-	void AddControllerYawInput(float Value);
+	void LookMouse(const FInputActionValue& Instance);
 
 public:	
 	// Called every frame

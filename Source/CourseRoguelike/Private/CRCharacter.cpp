@@ -46,9 +46,11 @@ void ACRCharacter::Move(const FInputActionInstance& Instance)
 	AddMovementInput(RightVector, AxisValue.X);
 }
 
-void ACRCharacter::AddControllerYawInput(float Value)
-{
-
+void ACRCharacter::LookMouse(const FInputActionValue& Instance)
+{		
+	const FVector2D AxisValue = Instance.Get<FVector2D>();		
+	AddControllerYawInput(AxisValue.X);
+	AddControllerPitchInput(AxisValue.Y);
 }
 
 // Called every frame
@@ -81,6 +83,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
+	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	
 }
 
