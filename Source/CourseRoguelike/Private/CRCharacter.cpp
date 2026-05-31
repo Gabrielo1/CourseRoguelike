@@ -4,6 +4,7 @@
 #include "CRCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/characterMovementComponent.h"
 
 // Enhanced input
 #include "EnhancedInputComponent.h"
@@ -16,10 +17,15 @@ ACRCharacter::ACRCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
+	SpringArmComp->bUsePawnControlRotation = true;
 	SpringArmComp->SetupAttachment(RootComponent);
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
+
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -46,9 +52,11 @@ void ACRCharacter::Move(const FInputActionInstance& Instance)
 	AddMovementInput(RightVector, AxisValue.X);
 }
 
-void ACRCharacter::AddControllerYawInput(float Value)
-{
-
+void ACRCharacter::LookMouse(const FInputActionValue& Instance)
+{		
+	const FVector2D AxisValue = Instance.Get<FVector2D>();		
+	AddControllerYawInput(AxisValue.X);
+	AddControllerPitchInput(AxisValue.Y);
 }
 
 // Called every frame
@@ -81,6 +89,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
+	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	
 }
 
