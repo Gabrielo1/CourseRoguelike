@@ -10,6 +10,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+// interaction with others objects
+#include "SMagicProjectile.h"
+
 // Sets default values
 ACRCharacter::ACRCharacter()
 {
@@ -59,6 +62,23 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 	AddControllerPitchInput(AxisValue.Y);
 }
 
+void ACRCharacter::PrimaryAtack()
+{
+	// wip
+	if(GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Red, TEXT("pew, pew!"));
+	}
+
+	// To do:
+	//FTransform SpawnTM = GetMesh()->GetSocketTransform("Muzzle_01"); //To Fire from rigth hand, wip
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetActorLocation() + GetActorForwardVector() * 100.f); // To fire from center of the character, in front of it
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -90,6 +110,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
-	
+	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Ongoing, this, &ACRCharacter::PrimaryAtack);
+
 }
 

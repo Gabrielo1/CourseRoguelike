@@ -16,6 +16,10 @@ UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
 {
 	GENERATED_BODY()
+	
+protected:
+	UPROPERTY(Editanywhere, Category = "Attack")
+	TSubclassOf<AActor> ProjectileClass;
 
 public:
 	// Sets default values for this character's properties
@@ -32,6 +36,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_LookMouse;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_PrimaryAtack;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -45,6 +52,8 @@ protected:
 	void Move(const FInputActionInstance& Instance);
 
 	void LookMouse(const FInputActionValue& Instance);
+
+	void PrimaryAtack();
 
 public:	
 	// Called every frame
