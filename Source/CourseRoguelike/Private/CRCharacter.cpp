@@ -113,7 +113,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
-	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Ongoing, this, &ACRCharacter::PrimaryAtack);
+	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
 
 }
 
