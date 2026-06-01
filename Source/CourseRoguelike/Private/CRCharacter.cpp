@@ -64,16 +64,6 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 
 void ACRCharacter::PrimaryAtack()
 {
-	// wip
-	if(GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Red, TEXT("pew, pew!"));
-	}
-
-	// To do:
-	//FTransform SpawnTM = GetMesh()->GetSocketTransform("Muzzle_01"); //To Fire from rigth hand, wip
-	//FTransform SpawnTM = FTransform(GetControlRotation(), GetActorLocation() + GetActorForwardVector() * 100.f); // To fire from center of the character, in front of it
-	
 	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand, wip
 	
 	FActorSpawnParameters SpawnParams;
