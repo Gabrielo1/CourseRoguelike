@@ -72,7 +72,10 @@ void ACRCharacter::PrimaryAtack()
 
 	// To do:
 	//FTransform SpawnTM = GetMesh()->GetSocketTransform("Muzzle_01"); //To Fire from rigth hand, wip
-	FTransform SpawnTM = FTransform(GetControlRotation(), GetActorLocation() + GetActorForwardVector() * 100.f); // To fire from center of the character, in front of it
+	//FTransform SpawnTM = FTransform(GetControlRotation(), GetActorLocation() + GetActorForwardVector() * 100.f); // To fire from center of the character, in front of it
+	
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand, wip
+	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
