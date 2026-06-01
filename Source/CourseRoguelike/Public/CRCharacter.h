@@ -56,6 +56,7 @@ protected:
 	void Move(const FInputActionInstance& Instance);
 	void PrimaryAtack();
 	void Jump(); //To do: Add time that button was pressed to make higher jump if player hold the button longer
+	void StopJumping();
 
 public:	
 	// Called every frame

@@ -74,8 +74,12 @@ void ACRCharacter::PrimaryAtack()
 
 void ACRCharacter::Jump()
 {
-	//JumpMaxHoldTime = 2.f;
 	Super::Jump();
+}
+
+void ACRCharacter::StopJumping()
+{
+	Super::StopJumping();
 }
 
 // Called every frame
@@ -111,5 +115,6 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
 	InputComp->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACRCharacter::Jump);
+	InputComp->BindAction(Input_Jump, ETriggerEvent::Completed, this, &ACRCharacter::StopJumping);
 }
 
