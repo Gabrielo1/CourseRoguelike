@@ -8,7 +8,6 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
-class UParticleSystemComponent;
 class UNiagaraComponent;
 
 UCLASS()
