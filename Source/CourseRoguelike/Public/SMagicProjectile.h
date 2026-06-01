@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class UNiagaraComponent;
 
 UCLASS()
 class COURSEROGUELIKE_API ASMagicProjectile : public AActor
@@ -27,7 +28,7 @@ protected:
 	UProjectileMovementComponent* MovementComp;
 
 	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* EffectComp;
+	UNiagaraComponent* NiagaraComp;
 
 
 	// Called when the game starts or when spawned
