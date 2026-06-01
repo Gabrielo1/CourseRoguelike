@@ -10,6 +10,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+// interaction with others objects
+#include "SMagicProjectile.h"
+
 // Sets default values
 ACRCharacter::ACRCharacter()
 {
@@ -59,6 +62,16 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 	AddControllerPitchInput(AxisValue.Y);
 }
 
+void ACRCharacter::PrimaryAtack()
+{
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand, wip
+	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -90,6 +103,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	// General
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
-	
+	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
+
 }
 
