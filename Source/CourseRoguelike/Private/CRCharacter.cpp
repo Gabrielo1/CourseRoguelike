@@ -72,6 +72,12 @@ void ACRCharacter::PrimaryAtack()
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 }
 
+void ACRCharacter::Jump()
+{
+	//JumpMaxHoldTime = 2.f;
+	Super::Jump();
+}
+
 // Called every frame
 void ACRCharacter::Tick(float DeltaTime)
 {
@@ -104,6 +110,6 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
-
+	InputComp->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACRCharacter::Jump);
 }
 

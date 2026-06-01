@@ -31,10 +31,13 @@ protected:
 	UInputMappingContext* DefaultInputMapping;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* Input_Move;
+	UInputAction* Input_Jump;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_LookMouse;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_Move;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_PrimaryAtack;
@@ -49,11 +52,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void Move(const FInputActionInstance& Instance);
-
 	void LookMouse(const FInputActionValue& Instance);
-
+	void Move(const FInputActionInstance& Instance);
 	void PrimaryAtack();
+	void Jump(); //To do: Add time that button was pressed to make higher jump if player hold the button longer
 
 public:	
 	// Called every frame
