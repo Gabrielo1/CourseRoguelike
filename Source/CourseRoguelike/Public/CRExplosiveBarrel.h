@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "CRExplosiveBarrel.generated.h"
 
+class URadialForceComponent;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRExplosiveBarrel : public AActor
@@ -22,6 +23,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UStaticMeshComponent> MeshComp;
+
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<URadialForceComponent> RadialForceComp;
+
+	
 
 	UFUNCTION()
 	void Explode();

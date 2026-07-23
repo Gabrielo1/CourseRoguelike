@@ -2,6 +2,7 @@
 
 
 #include "CRExplosiveBarrel.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 
 // Sets default values
 ACRExplosiveBarrel::ACRExplosiveBarrel()
@@ -14,6 +15,10 @@ ACRExplosiveBarrel::ACRExplosiveBarrel()
 
 	// TODO: Study collision profiles and set the appropriate one for the barrel
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
+	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>("RadialForce");
+	RadialForceComp->SetupAttachment(MeshComp);
+//	RadialForceComp->ImpulseStrength = 1000.f;
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +31,8 @@ void ACRExplosiveBarrel::BeginPlay()
 
 void ACRExplosiveBarrel::Explode()
 {
+
+   // RadialForceComp->FireImpulse();
     if (GEngine)
     {
         GEngine->AddOnScreenDebugMessage(
