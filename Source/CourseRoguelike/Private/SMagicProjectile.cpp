@@ -35,6 +35,7 @@ void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	//SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::Impact);
+	//SphereComp->OnComponentHit.AddUnique(this, &ASMagicProjectile::Impact);
 }
 
 //void ASMagicProjectile::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
