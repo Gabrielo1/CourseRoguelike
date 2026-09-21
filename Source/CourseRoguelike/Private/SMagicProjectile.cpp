@@ -14,6 +14,7 @@ ASMagicProjectile::ASMagicProjectile()
 	
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
+	SphereComp->SetSimulatePhysics(true);
 	RootComponent = SphereComp;
 
 	NiagaraComp = CreateDefaultSubobject<UNiagaraComponent>("EffectComp");
@@ -33,8 +34,21 @@ ASMagicProjectile::ASMagicProjectile()
 void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::Impact);
 }
+
+//void ASMagicProjectile::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+//{
+//	if (GEngine)
+//	{
+//		GEngine->AddOnScreenDebugMessage(
+//			-1,           // Identificador (Key). Usa -1 para añadir un mensaje nuevo sin sobreescribir otros.
+//			5.0f,         // Duración en pantalla (en segundos).
+//			FColor::Orange,  // Color del texto.
+//			TEXT("Proyectil colisionó!") // Mensaje a imprimir.
+//		);
+//	}
+//}
 
 // Called every frame
 void ASMagicProjectile::Tick(float DeltaTime)

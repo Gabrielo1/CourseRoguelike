@@ -45,8 +45,7 @@ void ACRExplosiveBarrel::Explode()
 }
 
 void ACRExplosiveBarrel::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	
+{	
     Explode();
 }
 
@@ -54,6 +53,5 @@ void ACRExplosiveBarrel::Impact(UPrimitiveComponent* Projectile, AActor* OtherAc
 void ACRExplosiveBarrel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
