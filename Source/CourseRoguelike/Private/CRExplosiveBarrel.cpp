@@ -25,14 +25,14 @@ ACRExplosiveBarrel::ACRExplosiveBarrel()
 void ACRExplosiveBarrel::BeginPlay()
 {
 	Super::BeginPlay();
-
 	MeshComp->OnComponentHit.AddDynamic(this, &ACRExplosiveBarrel::Impact);
 }
 
 void ACRExplosiveBarrel::Explode()
 {
 
-   // RadialForceComp->FireImpulse();
+    RadialForceComp->FireImpulse();
+   
     if (GEngine)
     {
         GEngine->AddOnScreenDebugMessage(
@@ -46,6 +46,7 @@ void ACRExplosiveBarrel::Explode()
 
 void ACRExplosiveBarrel::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	
     Explode();
 }
 
