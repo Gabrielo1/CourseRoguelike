@@ -30,7 +30,7 @@ protected:
 	UNiagaraComponent* NiagaraComp;
 
 	UFUNCTION()
-	/*void Impact(
+	void Impact(
 		UPrimitiveComponent* Projectile,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,

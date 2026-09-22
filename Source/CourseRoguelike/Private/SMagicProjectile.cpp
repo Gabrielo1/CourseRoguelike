@@ -14,7 +14,10 @@ ASMagicProjectile::ASMagicProjectile()
 	
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
-	SphereComp->SetSimulatePhysics(true);
+
+	// UProjectileMovementComponent triggers hit events without needing to activate the checkbox that constantly marks the hit (even against the ground). 
+	// If physics is enabled, this hit control is lost.
+	SphereComp->SetSimulatePhysics(false);
 	RootComponent = SphereComp;
 
 	NiagaraComp = CreateDefaultSubobject<UNiagaraComponent>("EffectComp");
@@ -34,22 +37,27 @@ ASMagicProjectile::ASMagicProjectile()
 void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	//SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::Impact);
-	//SphereComp->OnComponentHit.AddUnique(this, &ASMagicProjectile::Impact);
+	SphereComp->OnComponentHit.AddDynamic(this, &ASMagicProjectile::Impact);
+
+	AActor* MyOwner = GetInstigator();
+	if (ensureMsgf(MyOwner != nullptr, TEXT("The projectile '%s' was spawned without an Instigator."), *GetName()))
+	{
+		SphereComp->IgnoreActorWhenMoving(MyOwner, true);
+	}
 }
 
-//void ASMagicProjectile::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-//{
-//	if (GEngine)
-//	{
-//		GEngine->AddOnScreenDebugMessage(
-//			-1,           // Identificador (Key). Usa -1 para añadir un mensaje nuevo sin sobreescribir otros.
-//			5.0f,         // Duración en pantalla (en segundos).
-//			FColor::Orange,  // Color del texto.
-//			TEXT("Proyectil colisionó!") // Mensaje a imprimir.
-//		);
-//	}
-//}
+void ASMagicProjectile::Impact(UPrimitiveComponent* Projectile, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			-1,           // Identificador (Key). Usa -1 para añadir un mensaje nuevo sin sobreescribir otros.
+			5.0f,         // Duración en pantalla (en segundos).
+			FColor::Orange,  // Color del texto.
+			TEXT("Proyectil colision") // Mensaje a imprimir.
+		);
+	}
+}
 
 // Called every frame
 void ASMagicProjectile::Tick(float DeltaTime)
