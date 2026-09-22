@@ -64,7 +64,7 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 
 void ACRCharacter::PrimaryAtack()
 {
-	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand, wip
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand
 	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
