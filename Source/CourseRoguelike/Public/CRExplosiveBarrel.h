@@ -4,30 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SMagicProjectile.generated.h"
+#include "CRExplosiveBarrel.generated.h"
 
-class USphereComponent;
-class UProjectileMovementComponent;
-class UNiagaraComponent;
+class URadialForceComponent;
 
 UCLASS()
-class COURSEROGUELIKE_API ASMagicProjectile : public AActor
+class COURSEROGUELIKE_API ACRExplosiveBarrel : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASMagicProjectile();
+	ACRExplosiveBarrel();
 
 protected:
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* SphereComp;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere)
-	UProjectileMovementComponent* MovementComp;
+	TObjectPtr<UStaticMeshComponent> MeshComp;
+
 
 	UPROPERTY(VisibleAnywhere)
-	UNiagaraComponent* NiagaraComp;
+	TObjectPtr<URadialForceComponent> RadialForceComp;
+
+	
+
+	UFUNCTION()
+	void Explode();
 
 	UFUNCTION()
 	void Impact(
@@ -35,11 +39,7 @@ protected:
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,
 		FVector NormalImpulse,
-		const FHitResult& Hit); //*/
-
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+		const FHitResult& Hit);
 
 public:	
 	// Called every frame
