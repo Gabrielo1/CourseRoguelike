@@ -16,6 +16,14 @@ public:
 	ACRItemChest();
 
 protected:
+
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* LidMesh;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
