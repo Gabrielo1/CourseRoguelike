@@ -14,6 +14,13 @@ ACRItemChest::ACRItemChest()
 
 	LidMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidMesh"));
 	LidMesh->SetupAttachment(BaseMesh);	
+
+	TargetPitch = 110.f;
+}
+
+void ACRItemChest::Interact_Implementation(APawn* InstigatorPawn)
+{
+	LidMesh->SetRelativeRotation(FRotator(TargetPitch, 0.f, 0.f));
 }
 
 // Called when the game starts or when spawned
