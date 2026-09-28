@@ -39,6 +39,7 @@ void ACRCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InteractionComp->SetIsDebugging(bIsDebugging);
 }
 
 void ACRCharacter::Move(const FInputActionInstance& Instance)

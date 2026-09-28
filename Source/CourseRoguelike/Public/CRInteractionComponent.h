@@ -28,10 +28,14 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void SetIsDebugging(bool bDebugging) { bIsDebugging = bDebugging; }
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	float InteractionDistance;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsDebugging = false;
 		
 };

@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCRInteractionComponent* InteractionComp;
 
+	UPROPERTY(EditAnywhere)
+	bool bIsDebugging = false;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

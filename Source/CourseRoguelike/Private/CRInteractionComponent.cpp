@@ -61,5 +61,10 @@ void UCRInteractionComponent::PrimaryInteract()
 			ICRGameplayInterface::Execute_Interact(HitActor, MyPawn);	
 		}
 	}
+
+	if (bIsDebugging)
+	{
+		DrawDebugLine(GetWorld(), EyeLocation, End, FColor::Green, false, 2.f, 0, 2.f);
+	}
 }
 
