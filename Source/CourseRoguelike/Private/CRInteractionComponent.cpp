@@ -48,7 +48,7 @@ void UCRInteractionComponent::PrimaryInteract()
 	FVector End = EyeLocation + (EyeRotation.Vector() * InteractionDistance);
 
 	FHitResult Hit;
-	GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
+	bool bBlockingHit = GetWorld()->LineTraceSingleByObjectType(Hit, EyeLocation, End, ObjectQueryParams);
 	
 	AActor* HitActor = Hit.GetActor();
 	if (HitActor)
@@ -64,7 +64,20 @@ void UCRInteractionComponent::PrimaryInteract()
 
 	if (bIsDebugging)
 	{
-		DrawDebugLine(GetWorld(), EyeLocation, End, FColor::Green, false, 2.f, 0, 2.f);
+		TArray<FHitResult> Hits;
+		FCollisionShape Shape;
+		float Radius = 30.f;
+		Shape.SetSphere(Radius);
+
+		GetWorld()->SweepMultiByObjectType(Hits, EyeLocation, End, FQuat::Identity, ObjectQueryParams, Shape);
+
+		FColor LineColor = bBlockingHit ? FColor::Green : FColor::Red;
+		DrawDebugLine(GetWorld(), EyeLocation, End, LineColor, false, 2.f, 0, 2.f);
+
+		for(FHitResult ThisHit : Hits)
+		{
+			DrawDebugSphere(GetWorld(), ThisHit.ImpactPoint, Radius, 32, LineColor, false, 2.f);
+		}
 	}
 }
 
