@@ -4,6 +4,7 @@
 #include "CRCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "CRInteractionComponent.h"
 #include "GameFramework/characterMovementComponent.h"
 
 // Enhanced input
@@ -25,6 +26,8 @@ ACRCharacter::ACRCharacter()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	InteractionComp = CreateDefaultSubobject<UCRInteractionComponent>("InteractionComp");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 
@@ -74,6 +77,14 @@ void ACRCharacter::PrimaryAtack()
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 }
 
+void ACRCharacter::PrimaryInteract()
+{
+	if (InteractionComp)
+	{
+		InteractionComp->PrimaryInteract();
+	}
+}
+
 void ACRCharacter::Jump()
 {
 	Super::Jump();
@@ -116,6 +127,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
+	InputComp->BindAction(Input_PrimaryInteract, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryInteract);
 	InputComp->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACRCharacter::Jump);
 	InputComp->BindAction(Input_Jump, ETriggerEvent::Completed, this, &ACRCharacter::StopJumping);
 }

@@ -11,6 +11,7 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UCRInteractionComponent;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
@@ -42,11 +43,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_PrimaryAtack;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_PrimaryInteract;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
+
+	UPROPERTY(VisibleAnywhere)
+	UCRInteractionComponent* InteractionComp;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,6 +62,7 @@ protected:
 	void LookMouse(const FInputActionValue& Instance);
 	void Move(const FInputActionInstance& Instance);
 	void PrimaryAtack();
+	void PrimaryInteract();
 	void Jump(); //To do: Add time that button was pressed to make higher jump if player hold the button longer
 	void StopJumping();
 
