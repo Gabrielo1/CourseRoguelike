@@ -68,8 +68,15 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 
 void ACRCharacter::PrimaryAtack()
 {
+	// TODO: Use notifies or animation events to spawn projectile at the right time, instead of using a timer.
+	PlayAnimMontage(AttackAnim);
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ACRCharacter::PrimaryAtack_TimeElapsed, 0.2f);
+}
+
+void ACRCharacter::PrimaryAtack_TimeElapsed()
+{
 	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand
-	
+
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Owner = this;

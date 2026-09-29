@@ -12,6 +12,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class UCRInteractionComponent;
+class UAnimMontage;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
@@ -21,6 +22,11 @@ class COURSEROGUELIKE_API ACRCharacter : public ACharacter
 protected:
 	UPROPERTY(Editanywhere, Category = "Attack")
 	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(Editanywhere, Category = "Attack")
+	UAnimMontage* AttackAnim;
+
+	FTimerHandle TimerHandle_PrimaryAttack;
 
 public:
 	// Sets default values for this character's properties
@@ -65,8 +71,9 @@ protected:
 	void LookMouse(const FInputActionValue& Instance);
 	void Move(const FInputActionInstance& Instance);
 	void PrimaryAtack();
+	void PrimaryAtack_TimeElapsed();
 	void PrimaryInteract();
-	void Jump(); //To do: Add time that button was pressed to make higher jump if player hold the button longer
+	void Jump();
 	void StopJumping();
 
 public:	
