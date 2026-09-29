@@ -52,7 +52,7 @@ void ASMagicProjectile::Impact(UPrimitiveComponent* Projectile, AActor* OtherAct
 	{
 		GEngine->AddOnScreenDebugMessage(
 			-1,           // Identificador (Key). Usa -1 para añadir un mensaje nuevo sin sobreescribir otros.
-			5.0f,         // Duración en pantalla (en segundos).
+			2.0f,         // Duración en pantalla (en segundos).
 			FColor::Orange,  // Color del texto.
 			TEXT("Proyectil colision") // Mensaje a imprimir.
 		);

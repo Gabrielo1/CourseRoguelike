@@ -11,6 +11,8 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UCRInteractionComponent;
+class UAnimMontage;
 
 UCLASS()
 class COURSEROGUELIKE_API ACRCharacter : public ACharacter
@@ -20,6 +22,11 @@ class COURSEROGUELIKE_API ACRCharacter : public ACharacter
 protected:
 	UPROPERTY(Editanywhere, Category = "Attack")
 	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(Editanywhere, Category = "Attack")
+	UAnimMontage* AttackAnim;
+
+	FTimerHandle TimerHandle_PrimaryAttack;
 
 public:
 	// Sets default values for this character's properties
@@ -42,11 +49,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* Input_PrimaryAtack;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* Input_PrimaryInteract;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
+
+	UPROPERTY(VisibleAnywhere)
+	UCRInteractionComponent* InteractionComp;
+
+	UPROPERTY(EditAnywhere)
+	bool bIsDebugging = false;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,7 +71,9 @@ protected:
 	void LookMouse(const FInputActionValue& Instance);
 	void Move(const FInputActionInstance& Instance);
 	void PrimaryAtack();
-	void Jump(); //To do: Add time that button was pressed to make higher jump if player hold the button longer
+	void PrimaryAtack_TimeElapsed();
+	void PrimaryInteract();
+	void Jump();
 	void StopJumping();
 
 public:	

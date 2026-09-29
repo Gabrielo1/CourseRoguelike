@@ -4,6 +4,7 @@
 #include "CRCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "CRInteractionComponent.h"
 #include "GameFramework/characterMovementComponent.h"
 
 // Enhanced input
@@ -26,6 +27,8 @@ ACRCharacter::ACRCharacter()
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
 
+	InteractionComp = CreateDefaultSubobject<UCRInteractionComponent>("InteractionComp");
+
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 
 	bUseControllerRotationYaw = false;
@@ -36,6 +39,7 @@ void ACRCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InteractionComp->SetIsDebugging(bIsDebugging);
 }
 
 void ACRCharacter::Move(const FInputActionInstance& Instance)
@@ -64,14 +68,29 @@ void ACRCharacter::LookMouse(const FInputActionValue& Instance)
 
 void ACRCharacter::PrimaryAtack()
 {
+	// TODO: Use notifies or animation events to spawn projectile at the right time, instead of using a timer.
+	PlayAnimMontage(AttackAnim);
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ACRCharacter::PrimaryAtack_TimeElapsed, 0.2f);
+}
+
+void ACRCharacter::PrimaryAtack_TimeElapsed()
+{
 	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation("Muzzle_01")); //To Fire from rigth hand
-	
+
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Owner = this;
 	SpawnParams.Instigator = this;
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
+void ACRCharacter::PrimaryInteract()
+{
+	if (InteractionComp)
+	{
+		InteractionComp->PrimaryInteract();
+	}
 }
 
 void ACRCharacter::Jump()
@@ -116,6 +135,7 @@ void ACRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ACRCharacter::Move);
 	InputComp->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ACRCharacter::LookMouse);
 	InputComp->BindAction(Input_PrimaryAtack, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryAtack);
+	InputComp->BindAction(Input_PrimaryInteract, ETriggerEvent::Triggered, this, &ACRCharacter::PrimaryInteract);
 	InputComp->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACRCharacter::Jump);
 	InputComp->BindAction(Input_Jump, ETriggerEvent::Completed, this, &ACRCharacter::StopJumping);
 }
